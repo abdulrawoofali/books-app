@@ -11,3 +11,63 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* image galary */
+
+.book-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2px,2px,2px,2px;
+  border-radius: 3px;
+  border:black solid 3px;
+}
+
+.book-details{
+  flex-direction: row;
+  padding: 2px,2px,2px,2px;
+  border-radius: 3px;
+  border: red solid 3px;
+
+
+}
+div.book-details > img{
+  height: 300px;
+  width:  250px;
+}
+
+
+
+
+
+
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}

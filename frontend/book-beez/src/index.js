@@ -2,17 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import configureStore from './store/configureStore'
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-
-
+import {Provider} from "react-redux";
+import {loadAllTrendingBooks} from "./components/redux/trendingBooksRedux/midleware"
+import {loadAllFictionalTrendingBooks} from "./components/redux/FictionBookRedux/middleWare";
+import {loadAllNonFictionalTrendingBooks} from "./components/redux/NonFictionBookRedux/middleWare"
+const store = configureStore();
+store.dispatch(loadAllTrendingBooks());
+store.dispatch(loadAllFictionalTrendingBooks());
+store.dispatch(loadAllNonFictionalTrendingBooks());
 
 ReactDOM.render(
   <React.StrictMode>
+     <Provider store={store}>
     <BrowserRouter>
     <App />
     </BrowserRouter>
-  </React.StrictMode>,
+    </Provider>
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 // If you want to start measuring performance in your app, pass a function

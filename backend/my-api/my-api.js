@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 var fs = require("fs");
 var path = require("path");
 var cors = require('cors')
+const [FICTION,NON_FICTION] = ['/genre/5fbea89251bf6a0a58c4eb97','/genre/5fbea79c0886d155e495dc3e'];
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.urlencoded());
@@ -140,7 +141,7 @@ app.get(`${defaultApiUrl}/author`, (req, res) => {
 // get author by id
 
 app.get(`${defaultApiUrl}/author/:id`, (req, res) => {
-  Author.findById(req.params.id).then((author) => res.send(author));
+  Author.findById(req.params.id).then((author) => {res.send({author})});
 });
 
 app.put(`${defaultApiUrl}}/author/:id`,async (req,res)=>{
@@ -208,6 +209,8 @@ app.post(`${defaultApiUrl}/book`,upload.single('image'),async(req,res)=>{
    
     //console.log(req.body.request);
     const req_body = JSON.parse(req.body.request);
+    let author_url = await Author.findById(req_body.author).then(author => author.url);
+    let genre_url = await Genre.findById(req_body.genre).then(genre => genre.url);
     if (req.file!== null) {
       var obj = {
         name:  req_body.title,
@@ -223,7 +226,12 @@ app.post(`${defaultApiUrl}/book`,upload.single('image'),async(req,res)=>{
       //console.log(newImage);
       avatar_url = await newImage.save().then((image) => {return image.get(URL)});
     }
-    new Book({avatar_url,...req_body}).save().then(book => res.send(book),console.log("success book uploaded"))
+
+
+
+   //console.log({avatar_url,author_url,genre_url,...req_body});
+    //const newBook = 
+    new Book({avatar_url,author_url,genre_url,...req_body}).save().then(book => res.send(book),console.log("success book uploaded"))
 
 }catch(err){
     res.status(500).send("somthing is wrong with your data ... please re verify ...");
@@ -238,13 +246,35 @@ app.put(`${defaultApiUrl}/book/:id`,async (req,res)=>{
 
 })
 
-app.get(`${defaultApiUrl}/book`,(req,res)=>{
-    Book.find().then(books => res.send(books));
+app.get(`${defaultApiUrl}/book`, (req,res)=>{
+    Book.find().then((books) => res.send(books));
+    //const book = await Book.find().skip(0).limit(10).then(books => books);
+
 })
 
 app.get(`${defaultApiUrl}/book/:id`,(req,res)=>{
     Book.findById(req.params.id).then((book) => res.send(book));
 })
+
+app.get(`${defaultApiUrl}/books/trending`,(req,res)=>{
+    Book.find({ likes: { $gt: 100 } }).then(books =>res.send(books)).catch(err => res.send(err));
+})
+
+app.get(`${defaultApiUrl}/books/fiction`,(req,res)=>{
+    Book.find({
+        genre_url:NON_FICTION
+    }).then(books =>res.send(books)).catch(err => res.send(err));
+})
+
+
+app.get(`${defaultApiUrl}/books/nonfiction`,(req,res)=>{
+    Book.find({
+        genre_url:FICTION
+    }).then(books =>res.send(books)).catch(err => res.send(err));
+})
+
+
+
 
 //{"title":"hehvhcacv","author":"5fbea35779ae494e20bc0f24","summary":"cjhbcuchu","isbn":"cvsvcyvsuc","genre":"5fbea79c0886d155e495dc3e"}
 
