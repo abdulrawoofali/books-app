@@ -1,6 +1,6 @@
 import { loadAllFictionalTrendingBooks } from "../../redux/trendingBooksRedux/midleware";
 import { connect } from "react-redux";
-import ContentGalaryLoader from "../content-galary/contentGalaryLoader";
+import ContentGalaryLoader from "../contentSlideShow/contentGalaryLoader";
 const NonFictionSlideShow = (props) => {
   //console.log(props,"am non fiction")
   return (

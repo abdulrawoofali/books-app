@@ -16,6 +16,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import Dialog1 from "../../components/body/dialog/dialog1"
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 
@@ -106,12 +107,22 @@ function SingInSingUp(props){
 
 function PrimarySearchAppBar(props) {
   const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [openDialog,setOpenDialog] = React.useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  let sendValue = "";
+  const onChange = (event)=>{
+    console.log(PropTypes);
+    console.log(event.target.value);
+    sendValue = event.target.value;
+    setOpenDialog(true);
+  }
 
+ 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -139,6 +150,7 @@ function PrimarySearchAppBar(props) {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
@@ -210,7 +222,9 @@ function PrimarySearchAppBar(props) {
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
+                
               }}
+              onChange={onChange}
               inputProps={{ "aria-label": "search" }}
             />
           </div>
@@ -255,6 +269,7 @@ function PrimarySearchAppBar(props) {
             </IconButton>:  <SingInSingUp/>}
           </div>
         </Toolbar>
+        <Dialog1 open={openDialog} value={sendValue} onClose={()=> setOpenDialog(false)} />
       </AppBar>
      
 

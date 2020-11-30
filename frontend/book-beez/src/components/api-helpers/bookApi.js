@@ -5,13 +5,27 @@ export default class BooksApi{
 
     static getTrendingBooks(){
         //console.log("fecthing....");
-        return ( axois.get(consts.DB_URL+consts.TREDNING_BOOKS).then(res => {
-            //console.log("response from server ....",res);
-            return res.data;
-        }).catch(err => {return err;})
+        return ( axois.get(consts.DB_URL+consts.TREDNING_BOOKS).then(res => res.data).catch(err => err)
 
         )
     }
+    static getBooksByGenre(){
+        return (axois.get(consts.DB_URL+consts.BOOKS_BYGENRE)).then(res => res.data).catch(err => err)
+            
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     static getNonFictionalTrendingBooks(){
         //console.log("fetching Non fictional books.....");
         return ( axois.get(consts.DB_URL+consts.NON_FICTION_TRENDING_BOOKS).then(res => {

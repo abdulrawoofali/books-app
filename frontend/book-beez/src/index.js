@@ -7,12 +7,12 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import {Provider} from "react-redux";
 import {loadAllTrendingBooks} from "./components/redux/trendingBooksRedux/midleware"
-import {loadAllFictionalTrendingBooks} from "./components/redux/FictionBookRedux/middleWare";
-import {loadAllNonFictionalTrendingBooks} from "./components/redux/NonFictionBookRedux/middleWare"
+import {loadAllBooksByGenre} from "./components/redux/BookByGenre/midleware"
+// import {loadAllFictionalTrendingBooks} from "./components/redux/FictionBookRedux/middleWare";
+// import {loadAllNonFictionalTrendingBooks} from "./components/redux/NonFictionBookRedux/middleWare"
 const store = configureStore();
 store.dispatch(loadAllTrendingBooks());
-store.dispatch(loadAllFictionalTrendingBooks());
-store.dispatch(loadAllNonFictionalTrendingBooks());
+store.dispatch(loadAllBooksByGenre());
 
 ReactDOM.render(
   <React.StrictMode>

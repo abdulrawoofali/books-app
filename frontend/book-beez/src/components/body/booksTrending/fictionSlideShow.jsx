@@ -1,6 +1,6 @@
 import { loadAllFictionalTrendingBooks } from "../../redux/trendingBooksRedux/midleware";
 import { connect } from "react-redux";
-import ContentGalaryLoader from "../content-galary/contentGalaryLoader";
+import ContentGalaryLoader from "../contentSlideShow/contentGalaryLoader";
 const FictionSlideShow = (props) => {
  // console.log(props);
   return (

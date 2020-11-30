@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import ContentGalaryCard from "./contentGalaryCard";
+import AuthorSmallCard from "../author/authorSmallCard";
 export default function(props){
   //console.log(props.contents.length === 0 ? " no Data " : "Data Recived... ---> ");
 
@@ -29,7 +30,9 @@ export default function(props){
       {props.contents.length === 0 ? (
         <p>Loading....</p>
       ) : (
-        <ContentGalaryCard content={props.contents[slide_no]} />
+        <ContentGalaryCard content={props.contents[slide_no]} >
+          <AuthorSmallCard author={props.contents[slide_no].author}></AuthorSmallCard>
+        </ContentGalaryCard>
       )}
     </>
   );
