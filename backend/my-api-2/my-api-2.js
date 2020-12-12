@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 var fs = require("fs");
 var path = require("path");
 var cors = require("cors");
+
 const [FICTION, NON_FICTION] = [
   "/genre/5fbea89251bf6a0a58c4eb97",
   "/genre/5fbea79c0886d155e495dc3e",
@@ -16,6 +17,10 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+
+
+
+
 
 mongoose
   .connect("mongodb://localhost/bookStore-2")
@@ -36,15 +41,35 @@ const Genre2 = require("./models/genre");
 const author = require("./models/author");
 const book = require("./models/book");
 const { exec } = require("child_process");
+
+const user = require("./routes/user");
+const role = require("./routes/role")
+
+
+
+app.use(`${defaultApiUrl}/user`, user);
+app.use(`${defaultApiUrl}`,role);
+
 const port = 5000;
 
+// Search api
+
+app.get(`${defaultApiUrl}/search`,(req,res)=>{
+
+  const searchQuery = request.query.searchquery;
+
+})
+
+
+
+
+ // all author realted apis...
 app.post(`${defaultApiUrl}/author`, (req, res) => {
   new Author2(req.body)
     .save()
     .then((author) => res.send(author))
     .catch((err) => res.status(500).send(err));
 });
-
 app.get(`${defaultApiUrl}/authors`, (req, res) => {
   console.log("cbcb");
   Author2.find()
@@ -58,12 +83,20 @@ app.get(`${defaultApiUrl}/author/:id`, (req, res) => {
     .catch((err) => res.status(500).send(err));
 });
 
+
+
 app.put(`${defaultApiUrl}/author/:id`, (req, res) => {
   const filter = { _id: req.params.id };
   Author2.findOneAndUpdate(filter, req.body, { new: true, upsert: true })
     .then((author) => res.send(author))
     .catch((err) => res.status(500).send(err));
 });
+
+//=============================================//
+
+//===============================================//
+// All Genre realted api's...................... //
+//===============================================//
 
 app.post(`${defaultApiUrl}/genre`, (req, res) => {
   new Genre2(req.body)
@@ -103,6 +136,11 @@ app.get(`${defaultApiUrl}/book/:id`, (req, res) => {
     .then((book) => res.send(book))
     .catch((err) => res.status(500).send(err));
 });
+
+
+//===============================================//
+// All Book related apis ........................//
+//===============================================//
 
 app.get(`${defaultApiUrl}/books`, (req, res) => {
   //console.log("book..");
@@ -194,4 +232,6 @@ app.get(`/api/v2/authorAndBooks/:id`, (req, res) => {
 
 ]).exec().then(data => res.send(data)).catch(data => res.send(data));
 });
+const listEndpoints = require("express-list-endpoints"); // npm i express-list-endpoints
+console.log(listEndpoints(app)); // where app = express();
 app.listen(port, () => console.log(`listening at port ${port}`));
